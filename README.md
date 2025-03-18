@@ -16,8 +16,6 @@
 
 # URL Shortener
 
-The URL Shortener project is a high-performance web application built with Go, Docker and Redis that allows users to shorten URLs and redirect to the original links. This project uses Redis for fast data storage and retrieval, ensuring optimal performance.
-
 ## Table of Contents
 
 - [Features](#features)
