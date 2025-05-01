@@ -3,7 +3,13 @@
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/www.linkedin.com/in/ayanahmad15) [![X](https://img.shields.io/badge/X-black.svg?logo=X&logoColor=white)](https://x.com/ayanAhm4d) 
 
 # 💻 Tech Stack:
-![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white) ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
+
+- [Go](https://golang.org/)
+- [Gin](https://github.com/gin-gonic/gin)
+- [Redis](https://redis.io/)
+- [UUID](https://github.com/google/uuid)
+- [Govalidator](https://github.com/asaskevich/govalidator)
+- [Godotenv](https://github.com/joho/godotenv)
 
 # 📊 GitHub Stats:
 ![](https://github-readme-stats.vercel.app/api?username=ayanAhm4d&theme=dark&hide_border=false&include_all_commits=false&count_private=false)<br/>
@@ -44,19 +50,23 @@
 
 ```
 url-shortener/
+├── main.go
 ├── .env
 ├── go.mod
 ├── go.sum
-├── main.go
-├── api/
-     ├── database/
-     │   ├── database.go
-     │   └── schema.sql
-     ├── helpers/
-     │   └── helpers.go
-     └── routes/
-         ├── resolve.go
-         └── shorten.go
+├── config/
+│   └── config.go
+├── handlers/
+│   └── url.go
+├── middleware/
+│   └── rate_limiter.go
+├── models/
+│   └── request.go
+├── utils/
+│   └── helpers.go
+└── redis/
+    └── client.go
+
 ```
 ## Environment Variables
 
@@ -78,27 +88,16 @@ DOMAIN=localhost:3000
    ```bash
    git clone https://github.com/ayanAhm4d/URL-shortener.git
    ```
-2. Database Setup.
+2. Set up .env file:
 ```
    
-   CREATE DATABASE IF NOT EXISTS url_shortener;
-   USE url_shortener;
+  REDIS_ADDR=localhost:6379
+REDIS_PASSWORD=
+API_RATE_LIMIT=10
+API_RATE_DURATION=30m
+DEFAULT_EXPIRY=24h
+BASE_URL=http://localhost:8080
 
-   CREATE TABLE urls (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    short_url VARCHAR(255) UNIQUE NOT NULL,
-    original_url TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    expires_at DATETIME NOT NULL
-   );
-
-   CREATE TABLE rate_limits (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    client_ip VARCHAR(45) NOT NULL,
-    remaining INT NOT NULL,
-    reset_at DATETIME NOT NULL,
-    UNIQUE KEY unique_ip (client_ip)
-   );
 
 ```
    
@@ -121,29 +120,28 @@ DOMAIN=localhost:3000
 
 API Endpoints
 
-POST /api/v1: Shorten a URL.
+POST /shorten: Shorten a URL.
 
 Request Body:
 ```
 {
-  "url": "https://example.com",
-  "short": "customShort",
-  "expiry": 24
+  "url": "https://example.com/very-long-url",
+  "custom_short": "myshort",
+  "expiry": 12
 }
+
 ```
 Response:
 ```
 {
-  "url": "https://example.com",
-  "short": "http://localhost:3000/customShort",
-  "expiry": 24,
-  "rate_limit": 9,
-  "rate_limit_reset": 29
+  "short_url": "http://localhost:8080/myshort",
+  "expires_in": "12h0m0s"
 }
-```
-GET /:url: Redirect to the original URL.
 
-Example: http://localhost:3000/4fg redirects to https://example.com.
+```
+GET /:short: Redirect to the original URL.
+
+curl http://localhost:8080/myshort.
 
 
 You can use tools like curl, Postman, or your browser to interact with the API.
