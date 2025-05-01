@@ -117,16 +117,16 @@ Request Body:
       "custom_short": "myshort",
       "expiry": 12
     }
-    
     ```
+    
 Response:
     ```
     {
       "short_url": "http://localhost:8080/myshort",
       "expires_in": "12h0m0s"
     }
-    
     ```
+    
 GET /:short: Redirect to the original URL.
 
 curl http://localhost:8080/myshort.
