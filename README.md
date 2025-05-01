@@ -48,38 +48,26 @@
 ## Project Structure
 
 
-```
-url-shortener/
-├── main.go
-├── .env
-├── go.mod
-├── go.sum
-├── config/
-│   └── config.go
-├── handlers/
-│   └── url.go
-├── middleware/
-│   └── rate_limiter.go
-├── models/
-│   └── request.go
-├── utils/
-│   └── helpers.go
-└── redis/
-    └── client.go
-
-```
-## Environment Variables
-
-Create a .env file in the project root directory with the following variables:
-```
-DB_USER=root
-DB_PASSWORD=yourpassword
-DB_HOST=localhost
-DB_PORT=3306
-DB_NAME=url_shortener
-DOMAIN=localhost:3000
-```
-
+    ```
+    url-shortener/
+    ├── main.go
+    ├── .env
+    ├── go.mod
+    ├── go.sum
+    ├── config/
+    │   └── config.go
+    ├── handlers/
+    │   └── url.go
+    ├── middleware/
+    │   └── rate_limiter.go
+    ├── models/
+    │   └── request.go
+    ├── utils/
+    │   └── helpers.go
+    └── redis/
+        └── client.go
+    
+    ```
 
 ## Installation
 
@@ -89,17 +77,17 @@ DOMAIN=localhost:3000
    git clone https://github.com/ayanAhm4d/URL-shortener.git
    ```
 2. Set up .env file:
-```
+    ```
    
-  REDIS_ADDR=localhost:6379
-REDIS_PASSWORD=
-API_RATE_LIMIT=10
-API_RATE_DURATION=30m
-DEFAULT_EXPIRY=24h
-BASE_URL=http://localhost:8080
+    REDIS_ADDR=localhost:6379
+    REDIS_PASSWORD=
+    API_RATE_LIMIT=10
+    API_RATE_DURATION=30m
+    DEFAULT_EXPIRY=24h
+    BASE_URL=http://localhost:8080
 
 
-```
+    ```
    
 3. Install dependencies:
    ```
@@ -114,7 +102,7 @@ BASE_URL=http://localhost:8080
 
 
 
-2. Access the application at http://localhost:3000.
+2. Access the application at http://localhost:8080.
 
 ## Usage
 
@@ -123,22 +111,22 @@ API Endpoints
 POST /shorten: Shorten a URL.
 
 Request Body:
-```
-{
-  "url": "https://example.com/very-long-url",
-  "custom_short": "myshort",
-  "expiry": 12
-}
-
-```
+    ```
+    {
+      "url": "https://example.com/very-long-url",
+      "custom_short": "myshort",
+      "expiry": 12
+    }
+    
+    ```
 Response:
-```
-{
-  "short_url": "http://localhost:8080/myshort",
-  "expires_in": "12h0m0s"
-}
-
-```
+    ```
+    {
+      "short_url": "http://localhost:8080/myshort",
+      "expires_in": "12h0m0s"
+    }
+    
+    ```
 GET /:short: Redirect to the original URL.
 
 curl http://localhost:8080/myshort.
